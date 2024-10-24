@@ -6,14 +6,26 @@ import (
 	"log"
 	"log/slog"
 	"os"
+	"strings"
 	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/types/known/emptypb"
 
+	"tokio/client/visual"
 	pb "tokio/tokio" // Замените на правильный путь к вашему сгенерированному пакету
 )
+
+func DoCorrectString(message string)string{
+	result := strings.Replace(message, " ", "_", -1)
+	return result
+}
+
+func RemoveCorrectString(message string) string{
+	result := strings.Replace(message, "_", " ", -1)
+	return result
+}
 
 func ROUTE(client pb.ChatServiceClient, name string){
 	md := metadata.Pairs("name", name)
@@ -68,7 +80,7 @@ func Client() {
 			if err != nil {
 				log.Fatalf("Error while receiving message: %v", err)
 			}
-			fmt.Printf("[%s] %s: %s\n", chatMessage.UserFrom, chatMessage.UserFrom, chatMessage.Message)
+			visual.NewMessage(chatMessage.UserFrom, chatMessage.UserTo, RemoveCorrectString(chatMessage.Message))
 		}
 	}()
 
@@ -82,7 +94,7 @@ func Client() {
 		req := &pb.SendMessageRequest{
 			ChatMessage: &pb.ChatMessage{
 				UserFrom: clientName,
-				Message:   message,
+				Message:   DoCorrectString(message),
 				UserTo:   client_to, // Можно указать получателя, если необходимо
 			},
 		}
