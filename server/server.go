@@ -47,6 +47,8 @@ func MetadataFromIncomingContext(ctx context.Context) (metadata.MD, bool) {
 }
 
 func (s *server) JoinChat(empty *emptypb.Empty, stream pb.ChatService_JoinChatServer) error {
+
+
 	// Получение имени клиента (например, из метаданных или передача от клиента)
 	md, ok := MetadataFromIncomingContext(stream.Context())
 	var clientName string
