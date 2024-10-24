@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package tokio;
+
+// Импортируем пакет empty для использования его типа
+import "google/protobuf/empty.proto";
+option go_package = "./tokio";
+// Сообщение, которое отправляет пользователь
+message ChatMessage {
+  string user_from = 1;
+  string message = 2;
+  string user_to = 3;
+}
+
+// Запрос на отправку сообщения
+message SendMessageRequest {
+  ChatMessage chat_message = 1;
+}
+
+// Ответ на получение сообщения
+message SendMessageResponse {
+  string status = 1;
+}
+
+// Определение сервиса чата
+service ChatService {
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+  rpc JoinChat(google.protobuf.Empty) returns (stream ChatMessage);
+  rpc GiveClientName(HelloRequest) returns (HelloResponse);
+}
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloResponse {
+  string message = 1;
+}
