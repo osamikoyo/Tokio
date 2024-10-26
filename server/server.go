@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	pb "tokio/tokio" // Замените на правильный путь к вашему сгенерированному пакету
+	pb "tokio/tokio"
 )
 type Client struct {
 	name   string

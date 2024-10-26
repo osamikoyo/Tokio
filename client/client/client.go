@@ -14,16 +14,26 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"tokio/client/visual"
-	pb "tokio/tokio" // Замените на правильный путь к вашему сгенерированному пакету
+	pb "tokio/tokio" 
 )
 
+func Scan() string {
+	var result string
+	for {
+		fmt.Scanf("%[^\n]", &result)		
+		if result != ""{
+			return result
+		}
+	}
+}
+
 func DoCorrectString(message string)string{
-	result := strings.Replace(message, " ", "_", -1)
+	result := strings.Replace(message, " ", "аааа", 2000)
 	return result
 }
 
 func RemoveCorrectString(message string) string{
-	result := strings.Replace(message, "_", " ", -1)
+	result := strings.Replace(message, "аааа", " ", 2000)
 	return result
 }
 
@@ -58,10 +68,10 @@ func Client() {
 	var client_to string
 
 	fmt.Print("Enter your name: ")
-	fmt.Scanln(&clientName)
+	clientName = Scan()
 	fmt.Println("Your name is ", clientName)
 	fmt.Println("Enter name who you want to sedning")
-	fmt.Scanln(&client_to)
+	client_to = Scan()
 
 	md := metadata.Pairs("name", clientName)
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
@@ -88,7 +98,7 @@ func Client() {
 	for {
 		var message string
 		fmt.Print("Enter message: ")
-		fmt.Scanln(&message)
+		message = Scan()
 
 		// Создаем chatMessage и отправляем его
 		req := &pb.SendMessageRequest{
